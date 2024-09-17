@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model medicine {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @default("")
+  stock              Int                  @default(0)
+  exp_date           DateTime             @default(now())
+  type               DrugType
+  price              Float                @default(0)
+  creadtedAt         DateTime             @default(now())
+  updatedAt          DateTime             @default(now())
+  transaction_detail transaction_detail[]
+}
+
+model transaction {
+  id                 Int                  @id @default(autoincrement())
+  cashier_name       String               @default("")
+  order_date         DateTime             @default(now())
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  transaction_detail transaction_detail[]
+}
+
+model transaction_detail {
+  id                 Int         @id @default(autoincrement())
+  transcation_id     Int         @default(0)
+  medicine_id        Int         @default(0)
+  qty                Int         @default(0)
+  order_price        Float       @default(0)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @default(now()) @updatedAt
+  medicine_detail    medicine    @relation(fields: [medicine_id], references: [id])
+  transaction_detail transaction @relation(fields: [transcation_id], references: [id])
+
+  @@index([medicine_id], map: "transaction_detail_medicine_id_fkey")
+  @@index([transcation_id], map: "transaction_detail_transcation_id_fkey")
+}
+
+enum DrugType {
+  Syrup
+  Tablet
+  Powder
+}
