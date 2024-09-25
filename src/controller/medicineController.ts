@@ -12,11 +12,12 @@ const createMedicine = async (req: Request, res: Response) => {
         const exp_date: Date = new Date(req.body.exp_date)
         const type: DrugType = req.body.type
         const price: number = Number(req.body.price)
+        const photo: string = req.file?.filename || ``
 
         /** save a new medicine to database */
         const newMedicine = await prisma.medicine.create({
             data: {
-                name, stock, exp_date, type, price
+                name, stock, exp_date, type, price, photo
             }
         })
         return res.status(200).json({

@@ -16,6 +16,7 @@ model medicine {
   price              Float                @default(0)
   creadtedAt         DateTime             @default(now())
   updatedAt          DateTime             @default(now())
+  photo              String               @default("")
   transaction_detail transaction_detail[]
 }
 
@@ -41,6 +42,15 @@ model transaction_detail {
 
   @@index([medicine_id], map: "transaction_detail_medicine_id_fkey")
   @@index([transcation_id], map: "transaction_detail_transcation_id_fkey")
+}
+
+model admin {
+  id        Int      @id @default(autoincrement())
+  name      String   @default("")
+  email     String   @unique @default("")
+  password  String   @default("")
+  createdAt DateTime @default(now())
+  updateAt  DateTime @default(now())
 }
 
 enum DrugType {
