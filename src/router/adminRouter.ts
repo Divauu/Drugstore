@@ -11,7 +11,7 @@ router.get(`/`, [verifyToken],readAdmin)
 //route for update medicine
 router.put(`/`, [verifyToken, updateValidation] ,updateAdmin)
 //route for remove
-router.delete(`/:id`, [verifyToken],deleteAdmin)
+router.delete(`/:id`, [verifyToken], deleteAdmin)
 router.post(`/auth`, [authValidation] ,authentication)
 
 
